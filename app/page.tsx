@@ -1,120 +1,134 @@
-"use client";
-
-import { useCallback, useEffect, useState } from "react";
 import { Header } from "@/components/header";
-import { ControlPanel } from "@/components/control-panel";
-import { PatternPreview } from "@/components/pattern-preview";
-import { PresetRail } from "@/components/preset-rail";
-import { FavoritesRail } from "@/components/favorites-rail";
-import { ExportBar } from "@/components/export-bar";
-import { DEFAULT_STATE, type PatternState } from "@/lib/patterns/types";
-import { decodeState, encodeState } from "@/lib/patterns/url-state";
 import { brand } from "@/lib/brand";
 
+const LIVE_TOOLS = [
+  {
+    label: "Pattern Generator",
+    desc: "Seamless tiling. Damask to deco. KDP-ready.",
+    href: "https://shebuilds-pattern-generator.vercel.app",
+  },
+  {
+    label: "Chibi Generator",
+    desc: "AI prompts for kawaii character art.",
+    href: "https://shebuilds-chibi-generator.vercel.app",
+  },
+];
+
 export default function Page() {
-  const [state, setState] = useState<PatternState>(DEFAULT_STATE);
-  const [hydrated, setHydrated] = useState(false);
-
-  // Hydrate from URL on mount
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    const params = new URLSearchParams(window.location.search);
-    if (params.toString()) setState(decodeState(params));
-    setHydrated(true);
-  }, []);
-
-  // Sync state → URL (debounced via rAF)
-  useEffect(() => {
-    if (!hydrated) return;
-    let raf = 0;
-    raf = requestAnimationFrame(() => {
-      const qs = encodeState(state);
-      const next = `${window.location.pathname}?${qs}`;
-      if (window.location.search !== `?${qs}`) {
-        window.history.replaceState({}, "", next);
-      }
-    });
-    return () => cancelAnimationFrame(raf);
-  }, [state, hydrated]);
-
-  const handleRandom = useCallback(() => {
-    setState((prev) => ({
-      ...prev,
-      seed: Math.floor(Math.random() * 9999),
-      // also re-roll some visual params for variety
-      density: 0.4 + Math.random() * 1.0,
-      rotation: prev.type === "stripes" ? Math.floor(Math.random() * 91) : prev.rotation,
-    }));
-  }, []);
-
   return (
     <>
       <Header />
 
-      <section className="mx-auto max-w-[1600px] px-6 pt-10 pb-6 lg:px-10">
-        <p className="label mb-3">Toolkit · 01</p>
+      <section className="mx-auto max-w-[1600px] px-6 pt-12 pb-6 lg:px-10">
+        <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-gold/40 bg-gold/5 px-3 py-1">
+          <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-gold" />
+          <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-gold">
+            In the lab
+          </span>
+        </div>
+
+        <p className="label mb-3">SheBuilds Toolkit · {brand.toolNoun}</p>
         <h1 className="font-display text-display-lg leading-[0.95] tracking-tight">
-          <span className="text-foil">Patterns</span> that tile{" "}
-          <em className="font-display font-light italic text-cream-muted">forever</em>.
+          <span className="text-foil">{brand.toolNoun}</span>,{" "}
+          <em className="font-display font-light italic text-cream-muted">soon</em>.
         </h1>
         <p className="mt-4 max-w-2xl text-base leading-relaxed text-cream-muted">
-          {brand.subTagline} Eight motifs, your colors, KDP-ready exports.
-          No login, no watermark, no limits.
+          {brand.subTagline}
         </p>
       </section>
 
       <section className="mx-auto max-w-[1600px] px-6 pb-16 lg:px-10">
-        <div className="mb-6">
-          <PresetRail current={state} onSelect={setState} />
-        </div>
+        <div className="paper rounded-lg border border-cream/[0.06] p-8 lg:p-12">
+          <div className="grid gap-10 lg:grid-cols-2 lg:gap-14">
+            <div>
+              <p className="label mb-3">What's coming</p>
+              <h2 className="font-display text-3xl leading-tight tracking-tight text-cream">
+                {brand.tagline}
+              </h2>
+              <p className="mt-4 text-cream-muted">
+                Scaffolded, branded, and queued behind the SheBuilds toolkit
+                rollout. We ship one tool at a time so each one is genuinely
+                useful — not bloated, not paywalled, not cluttered with login
+                walls. Same editorial-luxe aesthetic. Same zero-watermark
+                exports. No login, no limits.
+              </p>
 
-        <div className="mb-6">
-          <FavoritesRail current={state} onSelect={setState} />
-        </div>
-
-        <div className="gold-rule mb-8" />
-
-        <div className="grid gap-8 lg:grid-cols-12">
-          {/* Controls — left rail */}
-          <aside className="lg:col-span-4 xl:col-span-3">
-            <div className="rounded-lg border border-cream/[0.06] bg-surface/40 p-6 backdrop-blur-sm lg:sticky lg:top-6">
-              <ControlPanel state={state} onChange={setState} onRandom={handleRandom} />
-            </div>
-          </aside>
-
-          {/* Preview + exports — main */}
-          <div className="lg:col-span-8 xl:col-span-9">
-            <div className="paper rounded-lg border border-cream/[0.06] p-6 lg:p-10">
-              <div className="mx-auto max-w-2xl">
-                <PatternPreview state={state} />
+              <div className="mt-6 flex flex-wrap gap-3">
+                <a
+                  href={brand.links.school}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="rounded-full bg-gold-shimmer bg-[length:200%_200%] px-5 py-2.5 text-sm font-medium text-ink shadow-gold-soft transition-all hover:shadow-gold hover:bg-[position:100%_50%]"
+                >
+                  Join the School · $33/mo ↗
+                </a>
+                <a
+                  href={brand.links.home}
+                  className="rounded-full border border-gold/40 px-5 py-2.5 text-sm text-cream transition-all hover:border-gold hover:bg-gold/5"
+                >
+                  All tools
+                </a>
               </div>
 
-              <div className="gold-rule mt-10 mb-6" />
-
-              <div className="flex flex-col items-start justify-between gap-4 lg:flex-row lg:items-center">
-                <div>
-                  <p className="label mb-1">Export</p>
-                  <p className="text-sm text-cream-muted">
-                    KDP PDF is 8.5 × 11 in @ 300 dpi · PNG is 2400 px square · SVG is vector.
-                  </p>
-                </div>
-                <ExportBar state={state} />
-              </div>
+              <p className="mt-5 font-mono text-[11px] leading-relaxed text-cream-muted/70">
+                Members get tools as they ship — plus the templates,
+                step-by-step guides, and live coaching that turn a generator
+                into a sellable product.
+              </p>
             </div>
 
-            <p className="mt-6 text-center font-mono text-[11px] tracking-wider text-cream-muted/60">
-              Made by SheBuilds Digital · Free, forever ·{" "}
-              <a
-                href={brand.links.school}
-                target="_blank"
-                rel="noreferrer"
-                className="text-gold hover:text-gold-light"
-              >
-                See the school
-              </a>
-            </p>
+            <div>
+              <p className="label mb-3">Live today</p>
+              <ul className="space-y-3">
+                {LIVE_TOOLS.map((t) => (
+                  <li key={t.label}>
+                    <a
+                      href={t.href}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="group block rounded-md border border-cream/[0.08] bg-surface/40 p-4 transition-all hover:border-gold/40 hover:bg-gold/[0.04]"
+                    >
+                      <div className="flex items-start justify-between gap-4">
+                        <div>
+                          <p className="font-display text-lg leading-tight tracking-tight text-cream">
+                            {t.label}
+                          </p>
+                          <p className="mt-1 text-sm text-cream-muted">
+                            {t.desc}
+                          </p>
+                        </div>
+                        <span className="font-mono text-[11px] text-gold transition-transform group-hover:translate-x-1">
+                          ↗
+                        </span>
+                      </div>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+
+              <div className="mt-6 rounded-md border border-cream/[0.06] bg-bg/40 p-4">
+                <p className="label mb-2">Built for</p>
+                <p className="text-sm leading-relaxed text-cream-muted">
+                  Etsy sellers, KDP authors, sticker shops, Payhip stores,
+                  TikTok shop creators — anyone turning ideas into digital
+                  income.
+                </p>
+              </div>
+            </div>
           </div>
         </div>
+
+        <p className="mt-6 text-center font-mono text-[11px] tracking-wider text-cream-muted/60">
+          Made by SheBuilds Digital · Free, forever ·{" "}
+          <a
+            href={brand.links.school}
+            target="_blank"
+            rel="noreferrer"
+            className="text-gold hover:text-gold-light"
+          >
+            See the school
+          </a>
+        </p>
       </section>
     </>
   );

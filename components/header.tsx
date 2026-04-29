@@ -8,7 +8,7 @@ export function Header() {
         <Link href="/" className="group flex items-baseline gap-3">
           <span className="font-display text-xl tracking-tight">
             <span className="text-foil">SheBuilds</span>{" "}
-            <span className="text-cream-muted font-normal">Patterns</span>
+            <span className="text-cream-muted font-normal">{brand.toolNoun}</span>
           </span>
         </Link>
         <nav className="flex items-center gap-6 text-xs">
