@@ -1,0 +1,37 @@
+{
+  "name": "shebuilds-pattern-generator",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Free seamless-pattern generator for Etsy sellers, KDP authors, and digital creators. Part of SheBuilds Digital.",
+  "scripts": {
+    "dev": "next dev -p 3001",
+    "build": "next build",
+    "start": "next start -p 3001",
+    "lint": "next lint",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@radix-ui/react-select": "^2.1.4",
+    "@radix-ui/react-slider": "^1.2.2",
+    "@radix-ui/react-tabs": "^1.1.2",
+    "clsx": "^2.1.1",
+    "file-saver": "^2.0.5",
+    "framer-motion": "^11.15.0",
+    "lucide-react": "^0.468.0",
+    "next": "14.2.21",
+    "pdf-lib": "^1.17.1",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "tailwind-merge": "^2.5.5"
+  },
+  "devDependencies": {
+    "@types/file-saver": "^2.0.7",
+    "@types/node": "^22.10.2",
+    "@types/react": "^18.3.18",
+    "@types/react-dom": "^18.3.5",
+    "autoprefixer": "^10.4.20",
+    "postcss": "^8.4.49",
+    "tailwindcss": "^3.4.17",
+    "typescript": "^5.7.2"
+  }
+}

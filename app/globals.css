@@ -1,0 +1,94 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+  --bg: #0a0a0a;
+  --surface: #141414;
+  --cream: #f5f0e8;
+  --gold: #d4af37;
+}
+
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html {
+  scroll-behavior: smooth;
+  background: var(--bg);
+}
+
+body {
+  background: var(--bg);
+  color: var(--cream);
+  font-family: var(--font-body), Inter, system-ui, sans-serif;
+}
+
+::selection {
+  background: var(--gold);
+  color: var(--bg);
+}
+
+.gold-rule {
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(212, 175, 55, 0.6) 50%,
+    transparent 100%
+  );
+}
+
+.text-foil {
+  background: linear-gradient(135deg, #a88a2b 0%, #e8c76c 35%, #d4af37 65%, #a88a2b 100%);
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: foil-shift 6s ease-in-out infinite;
+}
+
+@keyframes foil-shift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+.label {
+  font-family: var(--font-mono), monospace;
+  font-size: 0.6875rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb {
+  background: rgba(245, 240, 232, 0.08);
+  border-radius: 6px;
+}
+::-webkit-scrollbar-thumb:hover { background: rgba(245, 240, 232, 0.16); }
+
+:focus:not(:focus-visible) { outline: none; }
+:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Pattern preview "paper" texture: subtle */
+.paper {
+  background:
+    radial-gradient(circle at 20% 30%, rgba(245, 240, 232, 0.02), transparent 60%),
+    radial-gradient(circle at 80% 70%, rgba(212, 175, 55, 0.03), transparent 60%),
+    var(--surface);
+}
